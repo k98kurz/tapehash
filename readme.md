@@ -4,6 +4,16 @@ Tapehash is a slapdash proof-of-work system that uses a lot of different hash
 algorithms and an opcode execution system for ASIC-resistance. This is meant to
 be a good-enough solution for proof-of-concept systems.
 
+## Installation
+
+```bash
+pip install tapehash
+```
+
+An overview follows, but full documentation can be found
+[here](https://github.com/k98kurz/tapehash/blob/master/dox.md), generated
+automatically by [autodox](https://pypi.org/project/autodox).
+
 ## Functions
 
 This package contains three tuneable hashing functions:
