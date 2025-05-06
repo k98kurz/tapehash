@@ -22,7 +22,7 @@ This package contains three tuneable hashing functions:
 - `tapehash2(preimage: bytes, tape_size_multiplier: int = 2) -> bytes:`
 - `tapehash3(preimage: bytes, code_size: int = 64, tape_size_multiplier: int = 2) -> bytes:`
 
-All three have defaul parameters tuned to require about 0.25-0.3 ms per hash
+All three have default parameters tuned to require about 0.25-0.3 ms per hash
 (roughly 250-300x as long as sha256 on the reference hardware).
 
 It also includes the following proof-of-work functions:
