@@ -11,7 +11,7 @@ from hashlib import (
     From https://pastebin.com/xY3B3K8S
 """
 
-def tapehash1(preimage: bytes, code_size: int = 1024) -> bytes:
+def tapehash1(preimage: bytes, code_size: int = 20) -> bytes:
     """Runs the tapehash 1 algorithm on the preimage and returns a
         32-byte hash. Computational complexity is tuneable via the
         `code_size` parameter.
@@ -30,7 +30,9 @@ def tapehash1(preimage: bytes, code_size: int = 1024) -> bytes:
     # run the program
     for i in range(0, len(code)):
         opcode = code[i] >> 4
-        pointer = ((code[i] << 4) % 256) >> 4
+        #pointer = ((code[i] << 4) % 256) >> 4
+        pointer = code[i] & 0b00001111
+        double_pointer = int.from_bytes(code[i:i+2], 'big') % 2
 
         tape = execute_opcode(opcode, pointer, tape)
         tape = execute_opcode(opcode, pointer + 16, tape)
@@ -40,7 +42,7 @@ def tapehash1(preimage: bytes, code_size: int = 1024) -> bytes:
     return sha256(tape).digest()
 
 
-def tapehash2(preimage: bytes, tape_size_multiplier: int = 1024) -> bytes:
+def tapehash2(preimage: bytes, tape_size_multiplier: int = 2) -> bytes:
     """Runs the tapehash2 algorithm on the preimage and returns a
         32-byte hash. Memory complexity can be tuned via the
         `tape_size_multiplier` parameter.
@@ -59,7 +61,8 @@ def tapehash2(preimage: bytes, tape_size_multiplier: int = 1024) -> bytes:
     # run the program
     for i in range(0, len(code), 2):
         opcode = code[i] >> 4
-        pointer = ((code[i] << 4) % 256) >> 4
+        #pointer = ((code[i] << 4) % 256) >> 4
+        pointer = code[i] & 0b00001111
         double_pointer = int.from_bytes(code[i:i+2], 'big') % tape_size_multiplier
 
         tape = execute_opcode(opcode, pointer + double_pointer * 32, tape)
@@ -69,8 +72,8 @@ def tapehash2(preimage: bytes, tape_size_multiplier: int = 1024) -> bytes:
 
 
 def tapehash3(
-    preimage: bytes, code_size: int = 1024, tape_size_multiplier: int = 1024
-    ) -> bytes:
+    preimage: bytes, code_size: int = 64, tape_size_multiplier: int = 2
+) -> bytes:
     """Runs the tapehash3 algorithm on the preimage and returns a
         32-byte hash. Computational complexity is tuneable via the
         `code_size` parameter. Memory complexity is tuneable via the
@@ -89,16 +92,13 @@ def tapehash3(
 
     # generate the code and the tape
     code = shake_256(preimage).digest(code_size)
-    tape = bytearray(
-        shake_256(blake2b(preimage).digest()).digest(
-            tape_size_multiplier * 32
-        )
-    )
+    tape = bytearray(shake_256(preimage).digest(tape_size_multiplier * 32))
 
     # run the program
     for i in range(0, len(code), 2):
         opcode = code[i] >> 4
-        pointer = ((code[i] << 4) % 256) >> 4
+        #pointer = ((code[i] << 4) % 256) >> 4
+        pointer = code[i] & 0b00001111
         double_pointer = int.from_bytes(code[i:i+2], 'big') % tape_size_multiplier
 
         tape = execute_opcode(opcode, pointer + double_pointer * 32, tape)

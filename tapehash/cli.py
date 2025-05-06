@@ -18,7 +18,7 @@ def help_tapehash1():
 
 def run_tapehash1() -> None:
     preimage = b''
-    code_size = 1024
+    code_size = 20
 
     if not stdin.isatty():
         preimage = stdin.buffer.read()
@@ -101,7 +101,7 @@ def help_tapehash2():
 
 def run_tapehash2() -> None:
     preimage = b''
-    tape_size_multiplier = 1024
+    tape_size_multiplier = 2
 
     if not stdin.isatty():
         preimage = stdin.buffer.read()
@@ -187,8 +187,8 @@ def help_tapehash3():
 
 def run_tapehash3() -> None:
     preimage = b''
-    code_size = 1024
-    tape_size_multiplier = 1024
+    code_size = 64
+    tape_size_multiplier = 2
 
     if not stdin.isatty():
         preimage = stdin.buffer.read()
