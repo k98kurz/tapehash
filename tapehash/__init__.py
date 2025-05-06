@@ -7,3 +7,10 @@ from .work import (
     work
 )
 del algos
+
+__version__ = '0.1.0'
+
+def version() -> str:
+    """Returns the current library version."""
+    return __version__
+
