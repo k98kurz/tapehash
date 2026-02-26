@@ -31,7 +31,7 @@ complexity is tuneable via the `tape_size_multiplier` parameter.
 
 ### `license():`
 
-Copyright (c) 2025 Jonathan Voss (k98kurz) Permission to use, copy, modify,
+Copyright (c) 2026 Jonathan Voss (k98kurz) Permission to use, copy, modify,
 and/or distribute this software for any purpose with or without fee is hereby
 granted, provided that the above copyright notice and this permission notice
 appear in all copies. THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS
@@ -42,27 +42,30 @@ RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
 NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
 USE OR PERFORMANCE OF THIS SOFTWARE.
 
-### `work(state: HasNonceProtocol, serialize: Callable, difficulty: int, hash_algo: Callable) -> HasNonceProtocol:`
+### `work(state: HasNonceProtocol, serialize: Callable, difficulty: int, hash_algo: Callable, max_attempts: int = 10000000000) -> HasNonceProtocol:`
 
 Continually increments `state.nonce` until the difficulty score of
-`hash_algo(serialize(state))` >= target, then returns the updated state.
+`hash_algo(serialize(state))` >= target or until `max_attempts`, then returns
+the updated state.
 
-### `calculate_difficulty(val: bytes) -> int:`
+### `calculate_difficulty(digest: bytes) -> int:`
 
 Calculates the difficulty of a hash by dividing 2**256 (max int) by the supplied
-val interpreted as a big-endian unsigned int. This provides a linear metric that
-represents the expected amount of work (hashes) that have to be computed on
-average to reach the given hash val or better (lower).
+digest interpreted as a big-endian unsigned int. This provides a linear metric
+that represents the expected amount of work (hashes) that have to be computed on
+average to reach the given digest or better (lower). Returns 2**256-1 if digest
+is all null bytes.
 
 ### `calculate_target(difficulty: int) -> int:`
 
-Calculates the target value that a hash must be below to meet the difficulty
-threshold.
+Calculates the target value that a hash must be <= to meet the difficulty
+threshold. For difficulty >= 2: 2**256 // difficulty - 1; for difficulty <= 1:
+2**256 - 1.
 
-### `check_difficulty(val: bytes, difficulty: int) -> bool:`
+### `check_difficulty(digest: bytes, difficulty: int) -> bool:`
 
-Returns True if the val has a difficulty score greater than or equal to the
-supplied difficulty, otherwise False.
+Returns `True` if `digest` has a difficulty score greater than or equal to the
+supplied difficulty, otherwise `False`.
 
 ### `version() -> str:`
 

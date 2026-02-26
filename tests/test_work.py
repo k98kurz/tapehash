@@ -27,7 +27,7 @@ class TestCalculations(unittest.TestCase):
     def test_calculate_difficulty_e2e(self):
         result = calculate_difficulty(b"\x00" * 32)
         assert isinstance(result, int), result
-        assert result == 2**256, result
+        assert result == 2**256 - 1, result
 
         result2 = calculate_difficulty(b"\x01" + b"\x00" * 31)
         assert result2 > 0, result2
@@ -45,7 +45,7 @@ class TestCalculations(unittest.TestCase):
         result = calculate_target(100)
         assert isinstance(result, int), result
         assert 0 < result < 2**256, result
-        assert calculate_target(0) == 2**256
+        assert calculate_target(0) == 2**256 - 1
         assert calculate_target(100) > calculate_target(1000)
         with self.assertRaises(TypeError):
             calculate_target("100")

@@ -6,6 +6,7 @@
     - tapehash3:
         - corrected help text
         - uses tapehash3 consistently instead of tapehash1 with `--check` mode
+- Added `max_attempts` parameter to `work` with default of 10 billion
 - Added test suite
 
 ## 0.1.0

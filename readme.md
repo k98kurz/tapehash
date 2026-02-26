@@ -27,8 +27,8 @@ All three have default parameters tuned to require about 0.25-0.3 ms per hash
 
 It also includes the following proof-of-work functions:
 
-- `work(state: HasNonceProtocol, serialize: Callable, difficulty: int, hash_algo: Callable) -> HasNonceProtocol:`
-- `calculate_difficulty(val: bytes) -> int:`
+- `work(state: HasNonceProtocol, serialize: Callable, difficulty: int, hash_algo: Callable, max_attempts: int = 10**10) -> HasNonceProtocol:`
+- `calculate_difficulty(digest: bytes) -> int:`
 - `calculate_target(difficulty: int) -> int:`
 - `check_difficulty(val: bytes, difficulty: int) -> bool:`
 
@@ -80,7 +80,9 @@ class Message:
         m.find_nonce(difficulty)
         return m
 
-def filter(messages: list[Message], difficulty: int = _default_diff_threshold) -> list[Message]:
+def filter(
+        messages: list[Message], difficulty: int = _default_diff_threshold
+    ) -> list[Message]:
     """Filter out spam messages that do not reach the difficulty threshold."""
     return [m for m in messages if m.check(difficulty)]
 ```
@@ -124,10 +126,46 @@ An improper invocation will result in an exit value of 1. A proper invocation
 will result in an exit code of 0 in all cases except when `--check {int}` exits
 with 2.
 
+Example usage:
+
+```bash
+# Hash a string
+tapehash1 --preimage "hello world"
+
+# Hash from file
+tapehash2 --file message.dat
+
+# Hash hex data and check difficulty
+tapehash3 --from:hex --check 100
+
+# Use tuning parameters
+tapehash1 --preimage "test" --code_size 32
+tapehash2 --preimage "test" -tsm 4
+```
+
 ## Testing
 
-Testing has thus far been done manually. I may add a unit test suite at some
-point, but it seems unnecessary for now.
+First, clone the repo, set up the virtualenv, and install requirements.
+
+```bash
+git clone ...
+python -m venv venv/
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+For windows, replace `source venv/bin/activate` with `source venv/Scripts/activate`.
+
+Then run the test suite with the following:
+
+```bash
+find tests -name test_*.py -print -exec {} \;
+# or
+python -m unittest discover -s tests -v
+```
+
+There are currently 20 tests testing the three tapehash algorithms, the proof-of-work
+functionality, and the CLI.
 
 ## License
 
