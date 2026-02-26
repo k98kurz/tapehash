@@ -167,9 +167,15 @@ python -m unittest discover -s tests -v
 There are currently 20 tests testing the three tapehash algorithms, the proof-of-work
 functionality, and the CLI.
 
-## License
+## Contributing
 
-ISC License
+Check out the [Pycelium discord server](https://discord.gg/b2QFEJDX69). If you
+experience a problem, please discuss it on the Discord server. All suggestions
+for improvement are also welcome, and the best place for that is also Discord.
+If you experience a bug and do not use Discord, open an issue or discussion on
+Github.
+
+## ISC License
 
 Copyright (c) 2026 Jonathan Voss (k98kurz)
 

@@ -7,7 +7,7 @@ from .work import (
     work
 )
 
-__version__ = '0.1.1-dev'
+__version__ = '0.1.1'
 
 def version() -> str:
     """Returns the current library version."""

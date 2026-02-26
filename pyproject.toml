@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tapehash"
-version = "0.1.1-dev"
+version = "0.1.1"
 authors = [
   { name="k98kurz", email="k98kurz@gmail.com" },
 ]
@@ -21,7 +21,7 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/k98kurz/tapehash"
+"Homepage" = "https://pycelium.com/"
 "Repository" = "https://github.com/k98kurz/tapehash"
 "Bug Tracker" = "https://github.com/k98kurz/tapehash/issues"
 
