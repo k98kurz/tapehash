@@ -8,7 +8,9 @@ from hashlib import (
 
 """New randomized proof-of-work hashing algorithms inspired roughly by
     XMR's RandomX but much simpler and shoddier.
-    From https://pastebin.com/xY3B3K8S
+    Mirrors:
+        https://pastebin.com/xY3B3K8S
+        https://github.com/k98kurz/tapehash
 """
 
 def tapehash1(preimage: bytes, code_size: int = 20) -> bytes:
@@ -164,7 +166,7 @@ def execute_opcode(opcode: int, pointer: int, tape: bytearray) -> bytearray:
 
 
 def license():
-    """Copyright (c) 2025 Jonathan Voss (k98kurz)
+    """Copyright (c) 2026 Jonathan Voss (k98kurz)
 
         Permission to use, copy, modify, and/or distribute this software
         for any purpose with or without fee is hereby granted, provided

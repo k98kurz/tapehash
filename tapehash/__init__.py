@@ -6,9 +6,8 @@ from .work import (
     check_difficulty,
     work
 )
-del algos
 
-__version__ = '0.1.0'
+__version__ = '0.1.1-dev'
 
 def version() -> str:
     """Returns the current library version."""

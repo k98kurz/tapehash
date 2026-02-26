@@ -1,3 +1,13 @@
+## 0.1.1
+
+- CLI fixes:
+    - tapehash1: corrected help text
+    - tapehash2: corrected help text
+    - tapehash3:
+        - corrected help text
+        - uses tapehash3 consistently instead of tapehash1 with `--check` mode
+- Added test suite
+
 ## 0.1.0
 
 - Initial release.

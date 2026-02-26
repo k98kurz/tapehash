@@ -13,14 +13,14 @@ class HasNonceProtocol(Protocol):
     def nonce(self, val: int):
         ...
 
-def calculate_difficulty(val: bytes) -> int:
+def calculate_difficulty(digest: bytes) -> int:
     """Calculates the difficulty of a hash by dividing 2**256 (max int)
-        by the supplied val interpreted as a big-endian unsigned int.
+        by the supplied digest interpreted as a big-endian unsigned int.
         This provides a linear metric that represents the expected
         amount of work (hashes) that have to be computed on average to
-        reach the given hash val or better (lower).
+        reach the given digest or better (lower).
     """
-    val = int.from_bytes(val, 'big')
+    val = int.from_bytes(digest, 'big')
     if not val:
         return 2**256
     return 2**256 // val
@@ -38,15 +38,18 @@ def check_difficulty(val: bytes, difficulty: int) -> bool:
     return calculate_difficulty(val) >= difficulty
 
 def work(
-    state: HasNonceProtocol, serialize: Callable[[HasNonceProtocol], bytes],
-    difficulty: int, hash_algo: Callable[[bytes], bytes]
-) -> HasNonceProtocol:
+        state: HasNonceProtocol, serialize: Callable[[HasNonceProtocol], bytes],
+        difficulty: int, hash_algo: Callable[[bytes], bytes],
+        max_attempts: int = 10**10
+    ) -> HasNonceProtocol:
     """Continually increments `state.nonce` until the difficulty score of
-        `hash_algo(serialize(state))` >= target, then returns the updated
-        state.
+        `hash_algo(serialize(state))` >= target or until `max_attempts`,
+        then returns the updated state.
     """
     target = calculate_target(difficulty)
-    while int.from_bytes(hash_algo(serialize(state)), 'big') > target:
+    for _ in range(max_attempts):
+        if int.from_bytes(hash_algo(serialize(state)), 'big') <= target:
+            break
         state.nonce += 1
     return state
 

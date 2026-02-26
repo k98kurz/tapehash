@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "tapehash"
-version = "0.1.0"
+version = "0.1.1-dev"
 authors = [
   { name="k98kurz", email="k98kurz@gmail.com" },
 ]
