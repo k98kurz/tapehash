@@ -30,7 +30,7 @@ It also includes the following proof-of-work functions:
 - `work(state: HasNonceProtocol, serialize: Callable, difficulty: int, hash_algo: Callable, max_attempts: int = 10**10) -> HasNonceProtocol:`
 - `calculate_difficulty(digest: bytes) -> int:`
 - `calculate_target(difficulty: int) -> int:`
-- `check_difficulty(val: bytes, difficulty: int) -> bool:`
+- `check_difficulty(digest: bytes, difficulty: int) -> bool:`
 
 Difficulty is calculated by dividing `2**256` by the big-endian int value of a
 hash, which produces the expected average number of tries to find that hash or

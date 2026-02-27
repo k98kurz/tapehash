@@ -13,11 +13,11 @@ class HasNonceProtocol(Protocol):
         ...
 
 def calculate_difficulty(digest: bytes) -> int:
-    """Calculates the difficulty of a hash by dividing 2**256 (max int)
+    """Calculates the difficulty of a hash by dividing `2**256` (max int)
         by the supplied digest interpreted as a big-endian unsigned int.
         This provides a linear metric that represents the expected
         amount of work (hashes) that have to be computed on average to
-        reach the given digest or better (lower). Returns 2**256-1 if
+        reach the given digest or better (lower). Returns `2**256-1` if
         digest is all null bytes.
     """
     val = int.from_bytes(digest, 'big')
@@ -27,8 +27,8 @@ def calculate_difficulty(digest: bytes) -> int:
 
 def calculate_target(difficulty: int) -> int:
     """Calculates the target value that a hash must be <= to meet
-        the difficulty threshold. For difficulty >= 2: 2**256 //
-        difficulty - 1; for difficulty <= 1: 2**256 - 1.
+        the difficulty threshold. For difficulty >= 2: `2**256 //
+        difficulty - 1`; for difficulty <= 1: `2**256 - 1`.
     """
     return 2**256 - 1 if not difficulty else 2**256 // difficulty - 1
 
